@@ -1,0 +1,86 @@
+[
+  {
+    "city": "Shelton",
+    "latitude": 47.2150945,
+    "longitude": -123.1007066,
+    "name": "Tim Elliot",
+    "date": "2015-01-02"
+  },
+  {
+    "city": "Aloha",
+    "latitude": 45.4942838,
+    "longitude": -122.8670454,
+    "name": "Lewis Lee Lembke",
+    "date": "2015-01-02"
+  },
+  {
+    "city": "Wichita",
+    "latitude": 37.68717609999999,
+    "longitude": -97.33005299999999,
+    "name": "John Paul Quintero",
+    "date": "2015-01-03"
+  },
+  {
+    "city": "San Francisco",
+    "latitude": 37.7749295,
+    "longitude": -122.4194155,
+    "name": "Matthew Hoffman",
+    "date": "2015-01-04"
+  },
+  {
+    "city": "Evans",
+    "latitude": 40.3763701,
+    "longitude": -104.6921874,
+    "name": "Michael Rodriguez",
+    "date": "2015-01-04"
+  },
+  {
+    "city": "Chandler",
+    "latitude": 33.3061605,
+    "longitude": -111.8412502,
+    "name": "Kenneth Joe Brown",
+    "date": "2015-01-04"
+  },
+  {
+    "city": "Guthrie",
+    "latitude": 35.878937,
+    "longitude": -97.42531849999999,
+    "name": "Kenneth Arnold Buck",
+    "date": "2015-01-05"
+  },
+  {
+    "city": "Assaria",
+    "latitude": 38.6802826,
+    "longitude": -97.6044806,
+    "name": "Brock Nichols",
+    "date": "2015-01-06"
+  },
+  {
+    "city": "Burlington",
+    "latitude": 40.8076529,
+    "longitude": -91.1128901,
+    "name": "Autumn Steele",
+    "date": "2015-01-06"
+  },
+  {
+    "city": "Knoxville",
+    "latitude": 41.9572933,
+    "longitude": -77.4388719,
+    "name": "Leslie Sapp III",
+    "date": "2015-01-06"
+  },
+  {
+    "city": "Stockton",
+    "latitude": 37.9577016,
+    "longitude": -121.2907796,
+    "name": "Patrick Wetter",
+    "date": "2015-01-06"
+  },
+  {
+    "city": "Freeport",
+    "latitude": 28.9541368,
+    "longitude": -95.35966169999999,
+    "name": "Ron Sneed",
+    "date": "2015-01-07"
+  }
+]

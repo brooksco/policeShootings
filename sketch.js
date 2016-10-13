@@ -1,8 +1,11 @@
 var locations = [];
 var table;
 var names = "";
+var namesArray = [];
 var complete = false;
 var scaleF = 10;
+var pause = false;
+var pauseCount = 0;
 
 function preload() {
   table = loadTable("assets/fatal-police-shootings-data.csv", "csv", "header");
@@ -32,6 +35,7 @@ function setup() {
   
   for (var i = 0; i < locationJSON.length; i++) {
     names = names.concat(locationJSON[i].name + " · ");
+    namesArray[i] = locationJSON[i].name;
   }
   
   //cycle through the table
@@ -89,18 +93,71 @@ function locationHandler(location) {
 }
 
 
+var currentCount = 0;
+var currentText = "";
+
 function draw() {
   background(0, 0, 0);
   // rect(0, 0, 360, 180);
 
   // beginShape();
-  fill(100);
-  textSize(7);
+  fill(50);
+  // textSize(7);
+  // textFont("Lucida Sans Unicode");
+  textFont("Belleza");
+  textSize(10);
   // console.log(textWidth(names)/ windowWidth * 4);
   // console.log(windowHeight / (textWidth(names) / windowWidth));
-  text(names, 0, 0, windowWidth, windowHeight);
+  // text(names, 0, 0, windowWidth, windowHeight);
+  
+  
+  scaleF = windowWidth / 135;
+  delayF = 15;
+  
+  if (pause) {
+    currentCount = locationJSON.length;
+    pauseCount++;
+    
+    if (pauseCount == locationJSON.length * delayF) {
+      pause = false;
+      pauseCount = 0;
+    }
+    
+  } else {
+    // currentCount = (frameCount / 15) % locationJSON.length;
+    currentCount = (frameCount / delayF) % locationJSON.length;
 
-   for (var i = 0; i < locationJSON.length; i++) {
+    if (currentCount + 1 == locationJSON.length) {
+      pause = true;
+    }
+  }
+  
+  // currentCount = (frameCount / 15) % locationJSON.length;
+  
+  // currentCount = locationJSON.length;
+  
+  // Put together the current list of names
+  // Could be wrapped in lower loop, but may cause layering issues that need to be sorted
+  currentText = "";
+  for (var i = 0; i < currentCount; i++) {
+    
+    if (i == 0) {
+      currentText = namesArray[i];
+      
+    } else {
+      currentText = currentText.concat(" · " + namesArray[i]);
+      
+    }
+    
+    // currentText = currentText.concat(namesArray[i] + " · ");
+  }
+  text(currentText.toUpperCase(), 0, 0, windowWidth, windowHeight);
+  
+  // console.log(currentCount);
+  
+  for (var i = 0; i < currentCount; i++) {
+
+  // for (var i = 0; i < locationJSON.length; i++) {
 
     // Need 2 conceptual translations:
     // 1) Compensate for US lat/lon values grouping in quadrant 2
@@ -113,8 +170,10 @@ function draw() {
     // Translate lat/lon values to the center of the window
     adjustedLat = adjustedLat + windowHeight/2;
     adjustedLon = adjustedLon + windowWidth/2;
+  
+    var r = random(100, 255);
 
-    fill(random(100, 255));
+    fill(r, r, r, 140);
     noStroke();
     ellipse(adjustedLon, adjustedLat, 2, 2);
     // vertex(adjustedLon, adjustedLat);
