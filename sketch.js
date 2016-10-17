@@ -7,6 +7,16 @@ var scaleF = 10;
 var pause = false;
 var pauseCount = 0;
 
+var fontSize = 10;
+var fontTone = 30;
+
+var showAll = false;
+
+// Used to make screen NOT responsive, for canvas grabbing
+var lockCanvas = true;
+var wWidth;
+var wHeight;
+
 function preload() {
   table = loadTable("assets/fatal-police-shootings-data.csv", "csv", "header");
   // table = loadTable("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", "csv", "header");
@@ -21,17 +31,21 @@ function preload() {
   // for (var i = 0; i < locationJSON.length; i++) {
   //   names = names.concat(locationJSON[i].name + " ");
   // }
-  
-  
 }
 
 function setup() {
+  wWidth = 1920;
+  wHeight = 1080;
   
-  frameRate(30)
-  createCanvas(800, 600);
-  resizeCanvas(windowWidth, windowHeight);
-  // console.log(table.getColumn("name"));
+  // frameRate(30);
+  frameRate(60);
+  createCanvas(wWidth, wHeight);
   
+  if (!lockCanvas) {
+    resizeCanvas(windowWidth, windowHeight);
+    wWidth = windowWidth;
+    wHeight = windowHeight;
+  }
   
   for (var i = 0; i < locationJSON.length; i++) {
     names = names.concat(locationJSON[i].name + " · ");
@@ -97,23 +111,27 @@ var currentCount = 0;
 var currentText = "";
 
 function draw() {
+  
+  if (!lockCanvas) {
+    wWidth = windowWidth;
+    wHeight = windowHeight;
+  }
+  
   background(0, 0, 0);
   // rect(0, 0, 360, 180);
 
   // beginShape();
-  fill(50);
+  fill(fontTone);
   // textSize(7);
   // textFont("Lucida Sans Unicode");
   textFont("Belleza");
-  textSize(10);
-  // console.log(textWidth(names)/ windowWidth * 4);
-  // console.log(windowHeight / (textWidth(names) / windowWidth));
-  // text(names, 0, 0, windowWidth, windowHeight);
+  textSize(fontSize);
   
+  scaleF = wWidth / 135;
+  // delayF = 15;
+  delayF = 1;
   
-  scaleF = windowWidth / 135;
-  delayF = 15;
-  
+  // Set a pause such that half the time is spent building the map, and an equal half showing it completed
   if (pause) {
     currentCount = locationJSON.length;
     pauseCount++;
@@ -132,9 +150,9 @@ function draw() {
     }
   }
   
-  // currentCount = (frameCount / 15) % locationJSON.length;
-  
-  // currentCount = locationJSON.length;
+  if (showAll) {
+    currentCount = locationJSON.length;
+  }
   
   // Put together the current list of names
   // Could be wrapped in lower loop, but may cause layering issues that need to be sorted
@@ -142,7 +160,7 @@ function draw() {
   for (var i = 0; i < currentCount; i++) {
     
     if (i == 0) {
-      currentText = namesArray[i];
+      currentText = currentText.concat(namesArray[i]);
       
     } else {
       currentText = currentText.concat(" · " + namesArray[i]);
@@ -151,7 +169,8 @@ function draw() {
     
     // currentText = currentText.concat(namesArray[i] + " · ");
   }
-  text(currentText.toUpperCase(), 0, 0, windowWidth, windowHeight);
+  
+  text(currentText.toUpperCase(), 0, 0, wWidth, wHeight);
   
   // console.log(currentCount);
   
@@ -168,8 +187,8 @@ function draw() {
     var adjustedLon = ((locationJSON[i].longitude * scaleF) + 95 * scaleF);
     
     // Translate lat/lon values to the center of the window
-    adjustedLat = adjustedLat + windowHeight/2;
-    adjustedLon = adjustedLon + windowWidth/2;
+    adjustedLat = adjustedLat + wHeight/2;
+    adjustedLon = adjustedLon + wWidth/2;
   
     var r = random(100, 255);
 
@@ -180,39 +199,24 @@ function draw() {
   }
   // fill(255);
   // endShape(CLOSE);
-
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-function keyPressed() {
   
-  if (keyCode === '') {
-    console.log(locations.length);
-  }
-  
-  if (keyCode === 83) {
-    save('canvas.png')
-    console.log("save");
-  }
-  
-  if (keyCode === ENTER) {
-
-    // Go through and add back in all the other information
-    for (var i = 0; i < locations.length; i++) {
-      locations[i].name = table.getString(i, 1);
-      locations[i].date = table.getString(i, 2);
+  if (video) {
+    
+    // Check if we're done
+    if (videoCount == videoFrames) {
+      video = false;
+      videoCount = 0;
+      
+      console.log("Video complete");
+      
+    } else {
+      var fileName = "frames/frame_" + videoCount + ".jpg";
+      saveCanvas(fileName,"jpg");
+      videoCount ++;
+      
+      console.log("Video frames: " + videoCount);
     }
     
-    console.log(locations);
-    
-    // Save it to a JSON file, which doesn't work in the editor for some dumb reason (open in browser)
-    saveJSON(locations, 'locations.json');
   }
-  
-  if (keyCode === 32) {
-    console.log(locationJSON);
-  }
+
 }
