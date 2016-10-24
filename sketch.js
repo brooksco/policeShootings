@@ -7,13 +7,21 @@ var scaleF = 10;
 var pause = false;
 var pauseCount = 0;
 
-var fontSize = 10;
-var fontTone = 30;
+// var fontSize = 10;
+var fontSize = 7.2;
+var fontTone = 36;
+var dotSize = 2;
+
+
+// 4k
+// var fontSize = 19.9;
+// var dotSize = 4;
 
 var showAll = false;
 
 // Used to make screen NOT responsive, for canvas grabbing
-var lockCanvas = true;
+// var lockCanvas = true;
+var lockCanvas = false;
 var wWidth;
 var wHeight;
 
@@ -37,6 +45,10 @@ function setup() {
   wWidth = 1920;
   wHeight = 1080;
   
+  // 4K
+  // wWidth = 3840;
+  // wHeight = 2160;
+  
   // frameRate(30);
   frameRate(60);
   createCanvas(wWidth, wHeight);
@@ -51,13 +63,7 @@ function setup() {
     names = names.concat(locationJSON[i].name + " · ");
     namesArray[i] = locationJSON[i].name;
   }
-  
-  //cycle through the table
-  // for (var r = 0; r < table.getRowCount(); r++)
-  //   for (var c = 0; c < table.getColumnCount(); c++) {
-  //     console.log(table.getString(r, c));
-  //   }
-  
+
   var apiKey = "AIzaSyBfDv2ODxWsEUXh0uIbKFuOX7RcaqmsQF8";
   
   var i = 0;
@@ -75,7 +81,6 @@ function setup() {
     
         var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + city + ",+" + state + "&key=" + apiKey;
   
-        // console.log(city);
         loadJSON(url, locationHandler);
                 
         i++;                     //  increment the counter
@@ -96,14 +101,12 @@ function setup() {
 function locationHandler(location) {
 
   // Get the loaded JSON data
-  // console.log(location.results[0]);
   locations.push({
     "city": location.results[0].address_components[0].long_name,
     "latitude": location.results[0].geometry.location.lat, 
     "longitude": location.results[0].geometry.location.lng
   });
-  
-  // console.log(location.results[0].geometry.location.lat + ',' + location.results[0].geometry.location.lng);
+
 }
 
 
@@ -118,18 +121,14 @@ function draw() {
   }
   
   background(0, 0, 0);
-  // rect(0, 0, 360, 180);
 
-  // beginShape();
   fill(fontTone);
-  // textSize(7);
-  // textFont("Lucida Sans Unicode");
   textFont("Belleza");
   textSize(fontSize);
   
   scaleF = wWidth / 135;
-  // delayF = 15;
-  delayF = 1;
+  delayF = 15;
+  // delayF = 1;
   
   // Set a pause such that half the time is spent building the map, and an equal half showing it completed
   if (pause) {
@@ -142,7 +141,7 @@ function draw() {
     }
     
   } else {
-    // currentCount = (frameCount / 15) % locationJSON.length;
+    // Otherwise increment the current count, respecting the delay factor
     currentCount = (frameCount / delayF) % locationJSON.length;
 
     if (currentCount + 1 == locationJSON.length) {
@@ -159,6 +158,7 @@ function draw() {
   currentText = "";
   for (var i = 0; i < currentCount; i++) {
     
+    // Handle no dot for the first name
     if (i == 0) {
       currentText = currentText.concat(namesArray[i]);
       
@@ -167,16 +167,11 @@ function draw() {
       
     }
     
-    // currentText = currentText.concat(namesArray[i] + " · ");
   }
   
   text(currentText.toUpperCase(), 0, 0, wWidth, wHeight);
   
-  // console.log(currentCount);
-  
   for (var i = 0; i < currentCount; i++) {
-
-  // for (var i = 0; i < locationJSON.length; i++) {
 
     // Need 2 conceptual translations:
     // 1) Compensate for US lat/lon values grouping in quadrant 2
@@ -194,11 +189,9 @@ function draw() {
 
     fill(r, r, r, 140);
     noStroke();
-    ellipse(adjustedLon, adjustedLat, 2, 2);
+    ellipse(adjustedLon, adjustedLat, dotSize, dotSize);
     // vertex(adjustedLon, adjustedLat);
   }
-  // fill(255);
-  // endShape(CLOSE);
   
   if (video) {
     

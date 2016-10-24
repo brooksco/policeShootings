@@ -19,21 +19,20 @@ function keyPressed() {
   
   // Save video frames
   // v
-  if (keyCode === 86) {
-    if (video) {
-      video = false;
-      videoCount = 0;
+  // if (keyCode === 86) {
+  //   if (video) {
+  //     video = false;
+  //     videoCount = 0;
       
-      console.log("Video stop");
+  //     console.log("Video stop");
       
-    } else {
-      video = true;
+  //   } else {
+  //     video = true;
       
-      console.log("Video start");
-      
-    }
+  //     console.log("Video start");
+  //   }
     
-  }
+  // }
   
   // + font size
   if (keyCode === 187) {
@@ -75,19 +74,19 @@ function keyPressed() {
   }
   
   // Save new JSON file
-  if (keyCode === ENTER) {
+  // if (keyCode === ENTER) {
 
-    // Go through and add back in all the other information
-    for (var i = 0; i < locations.length; i++) {
-      locations[i].name = table.getString(i, 1);
-      locations[i].date = table.getString(i, 2);
-    }
+  //   // Go through and add back in all the other information
+  //   for (var i = 0; i < locations.length; i++) {
+  //     locations[i].name = table.getString(i, 1);
+  //     locations[i].date = table.getString(i, 2);
+  //   }
     
-    console.log(locations);
+  //   console.log(locations);
     
-    // Save it to a JSON file, which doesn't work in the editor for some dumb reason (open in browser)
-    saveJSON(locations, 'locations.json');
-  }
+  //   // Save it to a JSON file, which doesn't work in the editor for some dumb reason (open in browser)
+  //   saveJSON(locations, 'locations.json');
+  // }
   
 }
 
