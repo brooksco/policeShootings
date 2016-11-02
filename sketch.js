@@ -8,8 +8,8 @@ var pause = false;
 var pauseCount = 0;
 
 // var fontSize = 10;
-var fontSize = 7.2;
-var fontTone = 36;
+var fontSize = 13.2;
+var fontTone = 54;
 var dotSize = 2;
 
 
